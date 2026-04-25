@@ -6,15 +6,36 @@ from plotly.subplots import make_subplots
 from sklearn.linear_model import LinearRegression
 import numpy as np
 
-
 st.set_page_config(page_title="StockSight", page_icon="📈", layout="wide")
 
 st.title("📈 StockSight")
 st.write("Analyse any stock with real data and ML predictions")
 
-ticker = st.sidebar.text_input("Enter stock ticker", value="AAPL")
-period = st.sidebar.selectbox("Time period", ["1mo", "3mo", "6mo", "1y", "2y", "5y"])
+st.sidebar.subheader("Stock Selector")
 
+popular = {
+    "-- Type your own --": "",
+    "Apple (AAPL)": "AAPL",
+    "Tesla (TSLA)": "TSLA",
+    "Google (GOOGL)": "GOOGL",
+    "Microsoft (MSFT)": "MSFT",
+    "Amazon (AMZN)": "AMZN",
+    "Meta (META)": "META",
+    "NVIDIA (NVDA)": "NVDA",
+    "Netflix (NFLX)": "NFLX",
+    "Infosys (INFY)": "INFY",
+    "TCS (TCS.NS)": "TCS.NS",
+    "Reliance (RELIANCE.NS)": "RELIANCE.NS",
+    "Wipro (WIPRO.NS)": "WIPRO.NS",
+}
+
+selected = st.sidebar.selectbox("Quick pick a stock", list(popular.keys()))
+
+default_ticker = popular[selected] if popular[selected] else "AAPL"
+ticker = st.sidebar.text_input("Or enter any ticker", value=default_ticker)
+st.sidebar.caption("Add .NS for Indian stocks e.g. INFY.NS, HDFCBANK.NS")
+
+period = st.sidebar.selectbox("Time period", ["1mo", "3mo", "6mo", "1y", "2y", "5y"])
 st.sidebar.markdown("---")
 load = st.sidebar.button("Load Stock Data")
 
